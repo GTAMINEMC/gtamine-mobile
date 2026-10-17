@@ -1,0 +1,56 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent" android:layout_height="match_parent" android:background="@drawable/direct_launch_background">
+  <androidx.fragment.app.FragmentContainerView android:id="@+id/container_fragment" android:layout_width="match_parent" android:layout_height="match_parent" android:visibility="gone" />
+  <com.kdt.mcgui.mcAccountSpinner android:id="@+id/account_spinner" android:layout_width="1dp" android:layout_height="1dp" android:visibility="gone" />
+  <androidx.constraintlayout.widget.ConstraintLayout android:id="@+id/direct_launch_view" android:layout_width="match_parent" android:layout_height="match_parent" android:focusable="true" android:focusableInTouchMode="true">
+    <LinearLayout android:id="@+id/direct_logo_badge" android:layout_width="wrap_content" android:layout_height="48dp" android:layout_margin="20dp" android:gravity="center_vertical" android:orientation="horizontal" app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toTopOf="parent">
+      <ImageView android:layout_width="44dp" android:layout_height="44dp" android:contentDescription="@string/app_name" android:src="@mipmap/gtamine_launcher" />
+      <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="10dp" android:text="@string/app_name" android:textColor="@color/primary_text" android:textSize="18sp" android:textStyle="bold" />
+    </LinearLayout>
+    <LinearLayout android:id="@+id/direct_nickname_card" android:layout_width="0dp" android:layout_height="148dp" android:layout_marginStart="24dp" android:layout_marginEnd="24dp" android:layout_marginTop="12dp" android:layout_marginBottom="60dp" app:layout_constraintWidth_max="360dp" app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toBottomOf="@id/direct_logo_badge" app:layout_constraintBottom_toBottomOf="parent" android:background="@drawable/direct_launch_card" android:elevation="8dp" android:orientation="vertical" android:padding="16dp">
+      <LinearLayout android:layout_width="match_parent" android:layout_height="52dp" android:background="@drawable/direct_launch_input" android:gravity="center_vertical" android:orientation="horizontal" android:padding="0dp">
+        <EditText android:id="@+id/direct_launch_nickname" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:background="@null" android:paddingStart="14dp" android:paddingEnd="4dp" android:hint="@string/direct_launch_nickname_hint" android:contentDescription="@string/direct_launch_nickname_hint" android:imeOptions="actionDone" android:inputType="textVisiblePassword" android:maxLength="16" android:singleLine="true" android:textSize="16sp" android:textColor="@color/primary_text" android:textColorHint="#BBD0C2" />
+        <ImageButton android:id="@+id/direct_saved_nicknames" android:layout_width="48dp" android:layout_height="48dp" android:background="?attr/selectableItemBackgroundBorderless" android:contentDescription="@string/direct_saved_nicknames" android:padding="12dp" android:scaleType="fitCenter" android:src="@drawable/ic_nickname_list" android:tint="#BBD0C2" />
+      </LinearLayout>
+      <LinearLayout android:id="@+id/direct_play_card" android:layout_width="match_parent" android:layout_height="52dp" android:layout_marginTop="12dp" android:orientation="vertical">
+        <Button android:id="@+id/direct_launch_button" android:layout_width="match_parent" android:layout_height="52dp" android:background="@drawable/direct_launch_button_background" android:text="@string/direct_launch_button" android:textColor="#FFFFFF" android:textSize="17sp" android:textStyle="bold" />
+      </LinearLayout>
+    </LinearLayout>
+    <LinearLayout android:id="@+id/direct_progress_container" android:layout_width="0dp" android:layout_height="36dp" android:layout_marginTop="8dp" android:orientation="vertical" android:visibility="invisible" app:layout_constraintStart_toStartOf="@id/direct_nickname_card" app:layout_constraintEnd_toEndOf="@id/direct_nickname_card" app:layout_constraintTop_toBottomOf="@id/direct_nickname_card">
+      <LinearLayout android:layout_width="match_parent" android:layout_height="24dp" android:gravity="center_vertical" android:orientation="horizontal">
+        <TextView android:id="@+id/direct_status_text" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:gravity="center_vertical" android:maxLines="1" android:ellipsize="end" android:text="@string/direct_status_checking" android:textColor="#BBD0C2" android:textSize="12sp" />
+        <TextView android:id="@+id/direct_percent_text" android:layout_width="48dp" android:layout_height="match_parent" android:gravity="end|center_vertical" android:textColor="#8EF0A5" android:textSize="12sp" />
+      </LinearLayout>
+      <ProgressBar android:id="@+id/direct_progress_bar" style="?android:attr/progressBarStyleHorizontal" android:layout_width="match_parent" android:layout_height="4dp" android:layout_marginTop="4dp" android:max="100" android:indeterminateTint="#8EF0A5" android:progressDrawable="@drawable/direct_launch_progress" />
+    </LinearLayout>
+  </androidx.constraintlayout.widget.ConstraintLayout>
+  <ImageButton android:id="@+id/news_button" android:layout_width="48dp" android:layout_height="48dp" android:layout_gravity="top|end" android:layout_marginTop="20dp" android:layout_marginEnd="80dp" android:background="@drawable/direct_settings_button" android:contentDescription="@string/news_button_description" android:onClick="onNewsButtonClicked" android:padding="12dp" android:scaleType="fitCenter" android:src="@drawable/ic_menu_news" android:tint="#FFFFFF" />
+  <ImageButton android:id="@+id/setting_button" android:layout_width="48dp" android:layout_height="48dp" android:layout_gravity="top|end" android:layout_marginTop="20dp" android:layout_marginEnd="20dp" android:background="@drawable/direct_settings_button" android:contentDescription="@string/direct_settings_description" android:padding="12dp" android:scaleType="fitCenter" android:src="@drawable/ic_direct_settings" android:tint="#FFFFFF" />
+  <FrameLayout android:id="@+id/direct_settings_view" android:layout_width="match_parent" android:layout_height="match_parent" android:background="#F20A1711" android:visibility="gone" android:clickable="true">
+    <ScrollView android:layout_width="match_parent" android:layout_height="match_parent" android:fillViewport="true" android:clipToPadding="false" android:padding="20dp">
+      <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center_horizontal" android:orientation="vertical">
+        <LinearLayout android:layout_width="@dimen/direct_settings_width" android:layout_height="wrap_content" android:orientation="vertical">
+          <TextView android:layout_width="match_parent" android:layout_height="40dp" android:text="@string/direct_settings_title" android:textColor="@color/primary_text" android:textSize="24sp" android:textStyle="bold" />
+          <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="12dp" android:background="@drawable/direct_launch_card" android:padding="16dp" android:orientation="vertical">
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/direct_settings_game" android:textColor="#8EF0A5" android:textSize="12sp" android:textStyle="bold" />
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="10dp" android:text="@string/direct_settings_language" android:textColor="@color/primary_text" android:textSize="16sp" />
+            <RadioGroup android:id="@+id/direct_language_group" android:layout_width="match_parent" android:layout_height="48dp" android:orientation="horizontal">
+              <RadioButton android:id="@+id/direct_language_russian" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:buttonTint="#8EF0A5" android:text="Русский" android:textColor="@color/primary_text" />
+              <RadioButton android:id="@+id/direct_language_english" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:buttonTint="#8EF0A5" android:text="English" android:textColor="@color/primary_text" />
+            </RadioGroup>
+          </LinearLayout>
+          <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="12dp" android:background="@drawable/direct_launch_card" android:padding="16dp" android:orientation="vertical">
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/direct_settings_performance" android:textColor="#8EF0A5" android:textSize="12sp" android:textStyle="bold" />
+            <LinearLayout android:layout_width="match_parent" android:layout_height="32dp" android:layout_marginTop="8dp" android:gravity="center_vertical">
+              <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="@string/direct_settings_ram" android:textColor="@color/primary_text" android:textSize="14sp" />
+              <TextView android:id="@+id/direct_ram_value" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="#8EF0A5" android:textSize="14sp" android:textStyle="bold" />
+            </LinearLayout>
+            <SeekBar android:id="@+id/direct_ram_seekbar" android:layout_width="match_parent" android:layout_height="48dp" android:max="4096" android:progressTint="@color/gtamine_accent" android:thumbTint="@color/gtamine_accent" />
+          </LinearLayout>
+          <Button android:layout_width="match_parent" android:layout_height="48dp" android:layout_marginTop="16dp" android:background="@drawable/direct_launch_button_background" android:onClick="onDirectSettingsBackClicked" android:text="@string/direct_settings_back" android:textColor="#FFFFFF" android:textStyle="bold" />
+        </LinearLayout>
+      </LinearLayout>
+    </ScrollView>
+  </FrameLayout>
+  <include layout="@layout/panel_saved_nicknames" />
+  <com.kdt.mcgui.ProgressLayout android:id="@+id/progress_layout" android:layout_width="match_parent" android:layout_height="wrap_content" android:visibility="gone" />
+</FrameLayout>

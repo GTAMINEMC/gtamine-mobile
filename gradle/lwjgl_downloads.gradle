@@ -1,0 +1,74 @@
+import groovy.json.JsonOutput
+import java.security.MessageDigest
+import java.util.zip.ZipFile
+
+// Pin the original binaries: moving branches must never change an installed build.
+def upstream = 'https://raw.githubusercontent.com/AngelAuraMC/Amethyst-Android/330c6eae3164df64bdc4828e946a9e62cc5169e4/'
+def versions = ['3.3.3', '3.4.1']
+def generatedAssets = layout.buildDirectory.dir('generated/lwjglDownloadAssets')
+def remoteJarNames = ['jsr305.jar', 'lwjgl.jar', 'lwjgl-lwjglx.jar', 'lwjgl-freetype.jar',
+                      'lwjgl-nanovg.jar', 'lwjgl-openal.jar', 'lwjgl-jemalloc.jar', 'lwjgl-sdl.jar',
+                      'lwjgl-shaderc.jar', 'lwjgl-spng.jar', 'lwjgl-spvc.jar', 'lwjgl-stb.jar',
+                      'lwjgl-tinyfd.jar', 'lwjgl-vma.jar', 'lwjgl-vulkan.jar']
+
+android.sourceSets.main.assets {
+    setSrcDirs([generatedAssets.get().asFile])
+}
+
+def manifestTask = tasks.register('generateLwjglDownloadManifest') {
+    dependsOn ':jre_lwjgl3glfw:jar'
+    dependsOn ':forge_installer:jar', ':arc_dns_injector:jar', ':MioLibPatcher:jar'
+    inputs.files(versions.collect { file("libs/lwjgl-${it}-natives-release.aar") })
+    inputs.files(fileTree('src/main/assets'))
+    outputs.dir(generatedAssets)
+    doLast {
+        def sha256 = { InputStream input ->
+            def digest = MessageDigest.getInstance('SHA-256')
+            byte[] buffer = new byte[65536]
+            int count
+            while ((count = input.read(buffer)) != -1) digest.update(buffer, 0, count)
+            digest.digest().encodeHex().toString()
+        }
+        def fileHash = { File input -> input.withInputStream { sha256(it) } }
+        def data = [schema: 1, versions: [:]]
+        versions.each { version ->
+            def directory = file("src/main/assets/components/lwjgl3/$version")
+            def javaFiles = directory.listFiles().findAll { it.isFile() && (it.name.endsWith('.jar') || it.name == 'version') }
+                    .sort { it.name }.collect { input ->
+                boolean remote = remoteJarNames.contains(input.name)
+                [name: input.name, size: input.length(), sha256: fileHash(input), bundled: !remote,
+                 url: remote ? "${upstream}jre_lwjgl3glfw/lwjgl-$version/libs/lwjgl-$version/${input.name}" : null]
+            }
+            def archive = file("libs/lwjgl-$version-natives-release.aar")
+            def natives = [:]
+            new ZipFile(archive).withCloseable { zip ->
+                zip.entries().each { entry ->
+                    def match = entry.name =~ /^assets\/components\/lwjgl-[^\/]+-natives\/([^\/]+)\/([^\/]+\.so)$/
+                    if (match.matches()) {
+                        String abi = match.group(1)
+                        if (!natives.containsKey(abi)) natives[abi] = []
+                        natives[abi] << [name: match.group(2), entry: entry.name, size: entry.size,
+                                        sha256: zip.getInputStream(entry).withCloseable { sha256(it) }]
+                    }
+                }
+            }
+            ['arm64-v8a', 'armeabi-v7a', 'x86', 'x86_64'].each { abi ->
+                if (!natives[abi]) throw new GradleException("Missing LWJGL $version / $abi natives")
+            }
+            data.versions[version] = [javaFiles: javaFiles, natives: natives,
+                                     archive: [url: "${upstream}app_pojavlauncher/libs/${archive.name}",
+                                               size: archive.length(), sha256: fileHash(archive)]]
+        }
+        project.sync {
+            from 'src/main/assets'
+            into generatedAssets.get().asFile
+            remoteJarNames.each { exclude "components/lwjgl3/*/$it" }
+        }
+        def output = generatedAssets.get().file('lwjgl-downloads.json').asFile
+        output.parentFile.mkdirs()
+        output.setText(JsonOutput.prettyPrint(JsonOutput.toJson(data)), 'UTF-8')
+    }
+}
+tasks.matching { (it.name.startsWith('merge') && it.name.endsWith('Assets')) || it.name.toLowerCase().contains('lint') }.configureEach {
+    dependsOn manifestTask
+}

@@ -1,0 +1,25 @@
+<resources>
+    <string name="control_icon_scale">Icon size</string>
+    <string name="control_icon_scale_value">Icon size: %1$d%%</string>
+    <string name="direct_lwjgl_downloading">Game components: %1$.1f / %2$.1f MB</string>
+    <string name="direct_lwjgl_internet_required">Connect to the internet to install missing game components, then press Play again.</string>
+    <string name="direct_lwjgl_download_failed">Could not download game components. Check your connection and try again.</string>
+    <string name="direct_nickname_limit">You can save up to 3 nicknames. Delete one to add another.</string>
+    <string name="direct_nickname_close">Close nicknames</string>
+    <string name="direct_nickname_empty">No saved nicknames yet. Enter one above and press Save.</string>
+    <string name="direct_saved_nicknames">Saved nicknames</string>
+    <string name="direct_no_saved_nicknames">Nicknames are saved when you press Play.</string>
+    <string name="direct_nickname_example">Example: Steve</string>
+    <string name="direct_nickname_select">Select</string>
+    <string name="direct_nickname_edit">Edit nickname</string>
+    <string name="direct_nickname_delete">Delete nickname</string>
+    <string name="direct_nickname_new">New nickname</string>
+    <string name="direct_nickname_save">Save</string>
+    <string name="direct_nickname_exists">This nickname is already saved</string>
+    <string name="direct_nickname_error">Could not update the saved nickname</string>
+    <string name="direct_nickname_delete_message">Delete “%1$s” from saved nicknames?</string>
+    <string name="direct_settings_game">GAME</string>
+    <string name="direct_settings_language">Minecraft language</string>
+    <string name="direct_settings_performance">PERFORMANCE</string>
+    <string name="direct_language_error">Could not save the game language</string>
+</resources>

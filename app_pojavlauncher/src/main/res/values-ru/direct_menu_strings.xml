@@ -1,0 +1,25 @@
+<resources>
+    <string name="control_icon_scale">Размер иконки</string>
+    <string name="control_icon_scale_value">Размер иконки: %1$d%%</string>
+    <string name="direct_lwjgl_downloading">Компоненты игры: %1$.1f / %2$.1f МБ</string>
+    <string name="direct_lwjgl_internet_required">Для установки недостающих компонентов игры подключитесь к интернету и снова нажмите «Играть».</string>
+    <string name="direct_lwjgl_download_failed">Не удалось скачать компоненты игры. Проверьте интернет и попробуйте снова.</string>
+    <string name="direct_nickname_limit">Можно сохранить не более 3 никнеймов. Удалите один, чтобы добавить новый.</string>
+    <string name="direct_nickname_close">Закрыть список никнеймов</string>
+    <string name="direct_nickname_empty">Пока нет сохранённых ников. Введите ник выше и нажмите «Сохранить».</string>
+    <string name="direct_saved_nicknames">Сохранённые никнеймы</string>
+    <string name="direct_no_saved_nicknames">Никнеймы сохраняются после нажатия «Играть».</string>
+    <string name="direct_nickname_example">Например: Steve</string>
+    <string name="direct_nickname_select">Выбрать</string>
+    <string name="direct_nickname_edit">Изменить никнейм</string>
+    <string name="direct_nickname_delete">Удалить никнейм</string>
+    <string name="direct_nickname_new">Новый никнейм</string>
+    <string name="direct_nickname_save">Сохранить</string>
+    <string name="direct_nickname_exists">Такой никнейм уже сохранён</string>
+    <string name="direct_nickname_error">Не удалось изменить сохранённый никнейм</string>
+    <string name="direct_nickname_delete_message">Удалить «%1$s» из сохранённых никнеймов?</string>
+    <string name="direct_settings_game">ИГРА</string>
+    <string name="direct_settings_language">Язык Minecraft</string>
+    <string name="direct_settings_performance">ПРОИЗВОДИТЕЛЬНОСТЬ</string>
+    <string name="direct_language_error">Не удалось сохранить язык игры</string>
+</resources>
