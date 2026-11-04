@@ -28,6 +28,28 @@ jobs:
           distribution: 'temurin'
           java-version: '21'
 
+      - name: Create temporary Android CI signing key
+        shell: bash
+        run: |
+          set -euo pipefail
+          store_password="$(openssl rand -hex 24)"
+          key_password="$(openssl rand -hex 24)"
+          keytool -genkeypair \
+            -keystore app_pojavlauncher/gtamine-ci-release.jks \
+            -storepass "$store_password" \
+            -keypass "$key_password" \
+            -alias gtamine-ci \
+            -keyalg RSA \
+            -keysize 2048 \
+            -validity 1 \
+            -dname "CN=GTAMINE CI, OU=CI, O=GTAMINE, L=Kyiv, ST=Kyiv, C=UA"
+          {
+            echo "GTAMINE_STOREFILE=gtamine-ci-release.jks"
+            echo "GTAMINE_STOREPASSWORD=$store_password"
+            echo "GTAMINE_KEYALIAS=gtamine-ci"
+            echo "GTAMINE_KEYPASSWORD=$key_password"
+          } >> "$GITHUB_ENV"
+
       - name: Get JRE 8
         uses: dawidd6/action-download-artifact@v9
         with:
