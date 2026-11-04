@@ -214,7 +214,7 @@ android {
             // If you're debugging mesa libs, put them here, android will strip them
             // and not properly link to source files, very smart android studio.
             keepDebugSymbols += ['**/libcutils.so']
-            pickFirsts += ['**/libbytehook.so']
+            pickFirsts += ['**/libbytehook.so', '**/libxdl.so']
         }
     }
 
