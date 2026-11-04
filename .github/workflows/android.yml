@@ -33,7 +33,10 @@ jobs:
         run: |
           set -euo pipefail
           store_password="$(openssl rand -hex 24)"
-          key_password="$(openssl rand -hex 24)"
+          # keytool creates a PKCS12 keystore by default, which uses the same
+          # password for the keystore and its private key.
+          key_password="$store_password"
+          echo "::add-mask::$store_password"
           keytool -genkeypair \
             -keystore app_pojavlauncher/gtamine-ci-release.jks \
             -storepass "$store_password" \
